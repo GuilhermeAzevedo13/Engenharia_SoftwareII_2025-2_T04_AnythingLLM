@@ -37,7 +37,7 @@ class GitExtractor:
         ))
         
         #### Diffs (peguei os ultimos 10k  commits, mas talvez seja necessario mais -> ajustar 
-        self.save("diffs.txt", self.git('git log --all -p -n 100000'))
+        self.save("diffs.txt", self.git('git log --all -p -n 10000'))
         
         # Estrutura de branches
         self.save("branches.txt", self.git('git log --all --graph --oneline --decorate'))
@@ -62,7 +62,7 @@ Arquivos gerados em: {self.out.absolute()}
 
 
 if __name__ == "__main__":
-    REPO = r"#####Caminho pro repo git local#####"
+    REPO = r"CAMINHO DO REPO LOCAL AQUI"
     
     extractor = GitExtractor(REPO)
     extractor.extract_all()
