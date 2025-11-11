@@ -1,120 +1,135 @@
-from sentence_transformers import SentenceTransformer
-import torch
-from typing import List, Dict, Any
-from torch.nn.functional import cosine_similarity
+from transformers import pipeline
+from typing import Dict, Any, List
 
 # ===============================================================
 # 🔹 Dicionário de arquiteturas com descrições detalhadas
 # ===============================================================
 ARCHITECTURE_DESCRIPTIONS = {
     "MVC": (
-        "Model-View-Controller (MVC) é um padrão arquitetural que separa "
-        "a aplicação em três camadas: Model (lógica de dados e regras de negócio), "
-        "View (interface com o usuário) e Controller (coordena a interação entre "
-        "modelos e visões). É muito usado em frameworks web como Django, Rails e Spring MVC."
+        " Padrão arquitetural que separa a aplicação em três camadas principais: "
+        "Model (dados e regras de negócio), View (interface de usuário) e Controller (lógica de controle). "
+        "Essa separação facilita testes e manutenção. "
+        "Ideal para aplicações web com interface rica. "
+        "Pode aumentar a complexidade em sistemas grandes."
     ),
+
     "Microservices": (
-        "Arquitetura de Microservices divide a aplicação em serviços pequenos, "
-        "independentes e implantáveis separadamente. Cada serviço é responsável por uma "
-        "função específica e se comunica com outros via APIs. Facilita escalabilidade, "
-        "resiliência e implantação contínua."
+        " Divide a aplicação em pequenos serviços independentes, "
+        "cada um responsável por uma funcionalidade específica e comunicando-se via APIs (geralmente REST ou gRPC). "
+        "Permite escalabilidade independente e deploy contínuo. "
+        " Alta resiliência e flexibilidade tecnológica. "
+        " Complexidade operacional elevada (monitoramento, comunicação, autenticação)."
     ),
+
     "Layered architecture": (
-        "A arquitetura em camadas organiza o sistema em níveis de abstração distintos, "
-        "como apresentação, lógica de negócio e acesso a dados. Cada camada depende apenas "
-        "da camada imediatamente inferior. É um modelo clássico de sistemas corporativos."
+        " Estrutura clássica onde o sistema é dividido em "
+        "camadas como apresentação, lógica de negócio e acesso a dados. "
+        "As dependências seguem de cima para baixo. "
+        " Simples de entender e aplicar. "
+        " Dificulta testes isolados e pode gerar acoplamento entre camadas adjacentes."
     ),
+
     "Monolithic": (
-        "Arquitetura monolítica é aquela em que toda a lógica de aplicação está agrupada "
-        "num único bloco implantável. É mais simples de desenvolver inicialmente, mas "
-        "dificulta a escalabilidade e manutenção em sistemas grandes."
+        " Toda a aplicação é empacotada em um único artefato implantável, "
+        "onde todos os módulos compartilham o mesmo ambiente de execução. "
+        "Fácil de desenvolver e implantar inicialmente. "
+        " Difícil de escalar e manter conforme o sistema cresce; pequenos erros podem afetar todo o sistema."
     ),
+
     "Event-driven architecture": (
-        "Arquitetura orientada a eventos é baseada na emissão, detecção e reação a eventos. "
-        "Os componentes são fracamente acoplados e se comunicam de forma assíncrona via filas "
-        "ou brokers como Kafka e RabbitMQ. Ideal para sistemas altamente reativos e escaláveis."
+        " Baseia-se em eventos que são emitidos e consumidos por serviços "
+        "ou componentes. Usada para sistemas reativos e desacoplados. "
+        "Alta escalabilidade e resposta em tempo real. "
+        "Depuração e rastreamento de erros são complexos; exige infraestrutura de mensageria (Kafka, RabbitMQ)."
     ),
+
     "Plugin/modular architecture": (
-        "Arquitetura modular ou de plugins permite estender funcionalidades do sistema "
-        "sem alterar seu núcleo. Cada módulo ou plugin pode ser adicionado ou removido "
-        "de forma independente. Usada em IDEs, jogos e plataformas extensíveis."
+        " O sistema é construído como um núcleo principal (core) "
+        "com módulos independentes (plugins) que adicionam funcionalidades. "
+        " Extensível e personalizável. "
+        " Pode exigir um framework complexo de integração entre módulos."
     ),
+
     "Serverless": (
-        "Arquitetura Serverless executa funções sob demanda na nuvem, sem que o desenvolvedor "
-        "precise gerenciar servidores. Cada função é acionada por eventos e escala automaticamente. "
-        "Usada em plataformas como AWS Lambda e Google Cloud Functions."
+        "Baseada em funções executadas sob demanda em provedores de nuvem "
+        "(como AWS Lambda, Google Cloud Functions ou Azure Functions). "
+        " Reduz custo e manutenção de servidores; escala automaticamente. "
+        " Latência inicial (cold start) e limitações de execução em funções longas."
     ),
+
     "CQRS": (
-        "Command Query Responsibility Segregation (CQRS) separa operações de escrita (commands) "
-        "e leitura (queries) em modelos distintos, otimizando desempenho e consistência. "
-        "É comum em sistemas com alta carga de leitura e necessidade de eventos consistentes."
+        "Separa as operações de leitura (Query) "
+        "das operações de escrita (Command), permitindo otimizações distintas para cada fluxo. "
+        " Alta performance em leitura e consistência eventual bem controlada. "
+        " Implementação mais complexa e maior esforço de sincronização entre os modelos."
     ),
+
     "Hexagonal architecture": (
-        "Arquitetura Hexagonal (ou Ports and Adapters) separa o núcleo da aplicação "
-        "das interfaces externas (banco de dados, UI, APIs) por meio de portas e adaptadores. "
-        "Facilita testes e independência de infraestrutura."
+        "Organiza o sistema em torno de um núcleo de domínio, "
+        "com portas e adaptadores para interagir com o mundo externo (banco, API, UI). "
+        " Altamente testável e desacoplado de frameworks externos. "
+        "️ Exige disciplina arquitetural e compreensão avançada de design de software."
     ),
+
     "Onion architecture": (
-        "Arquitetura Onion é uma variação da Hexagonal, com camadas concêntricas "
-        "em torno do domínio central. Cada camada depende apenas da camada mais interna. "
-        "Promove alta coesão e baixo acoplamento."
+        " Variante da arquitetura hexagonal, "
+        "em que o domínio central é envolto por camadas progressivas (aplicação, infraestrutura, interface). "
+        " Mantém o domínio independente de frameworks. "
+        " Pode ser excessivamente abstrata para projetos pequenos."
     ),
+
     "Client-server": (
-        "Arquitetura cliente-servidor separa o sistema em dois papéis principais: "
-        "o cliente (interface que solicita recursos) e o servidor (componente que os fornece). "
-        "Modelo clássico da web moderna."
+        " Divide o sistema entre cliente (que solicita recursos) e servidor "
+        "(que fornece serviços). É a base de aplicações web e de rede. "
+        " Modelo simples e bem compreendido. "
+        " Escalabilidade limitada se o servidor for um ponto único de falha."
     ),
+
     "Service-oriented architecture": (
-        "Arquitetura orientada a serviços (SOA) organiza o sistema como um conjunto de serviços "
-        "reutilizáveis e interoperáveis que se comunicam por protocolos padronizados, "
-        "como SOAP e REST. É um precursor dos microserviços."
+        " Estrutura o sistema como um conjunto de serviços interoperáveis "
+        "que seguem padrões de comunicação (SOAP, REST, etc.). "
+        " Reutilização e integração facilitadas entre sistemas legados. "
+        " Overhead de comunicação e necessidade de governança rigorosa."
     ),
 }
 
 # ===============================================================
-# 🔹 Funções utilitárias
+# 🔹 Carregar modelo Zero-Shot Classification
 # ===============================================================
-def load_embedding_model(model_name: str = "all-MiniLM-L6-v2"):
-    """Carrega modelo de embedding Sentence-Transformers."""
-    # Carrega o modelo de forma otimizada
-    model = SentenceTransformer(model_name)
-    # Retornamos o modelo. O tokenizer está embutido nele
-    return model
+def load_zero_shot_classifier(model_name: str = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"):
+    """
+    Carrega o modelo zero-shot-classification (sem necessidade de treino).
+    """
+    return pipeline("zero-shot-classification", model=model_name)
 
-# NOVO MÉTODO DE EMBEDDING
-def get_embedding(text: str, model) -> torch.Tensor:
-    """Retorna embedding da sentença usando o método otimizado do S-T."""
-    embedding_list = model.encode([text], convert_to_tensor=True, show_progress_bar=False)
-    return embedding_list[0] # Retorna o tensor do primeiro (e único) item da lista
+# ===============================================================
+# 🔹 Função de classificação por similaridade semântica
+# ===============================================================
+def classify_architecture(description: str,
+                          architecture_descriptions: Dict[str, str],
+                          model_name: str = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+                          multi_label: bool = True) -> Dict[str, Any]:
+    """
+    Usa zero-shot-classification para identificar qual arquitetura o texto mais descreve.
+    """
+    classifier = load_zero_shot_classifier(model_name)
+    candidate_labels = list(architecture_descriptions.keys())
 
-# Ajuste o 'compute_semantic_similarity' para usar o novo 'load_embedding_model'
-def compute_semantic_similarity(description: str,
-                            architecture_descriptions: Dict[str, str] = ARCHITECTURE_DESCRIPTIONS,
-                            model_name: str = "all-MiniLM-L6-v2") -> Dict[str, Any]:
-    """Calcula similaridade entre a descrição do sistema e embeddings das arquiteturas."""
-
-    # O S-T agora retorna apenas o modelo, não o tokenizer separadamente
-    model = load_embedding_model(model_name)
-
-    # Passe apenas o modelo para get_embedding
-    desc_emb = get_embedding(description, model)
-
-    results = []
-    for label, desc in architecture_descriptions.items():
-        label_emb = get_embedding(desc, model)
-        sim = cosine_similarity(desc_emb.unsqueeze(0), label_emb.unsqueeze(0)).item()
-        results.append((label, sim))
-
-    results = sorted(results, key=lambda x: x[1], reverse=True)
+    result = classifier(description, candidate_labels, multi_label=multi_label)
+    labels_scores = list(zip(result["labels"], result["scores"]))
+    labels_scores = sorted(labels_scores, key=lambda x: x[1], reverse=True)
 
     return {
-        "sequence": description,
-        "labels_scores": results
+        "sequence": result.get("sequence", description),
+        "labels_scores": labels_scores
     }
 
-def pretty_print(result: Dict[str, Any], top_k: int = 5):
-    print("Texto analisado:\n", result["sequence"][:800], "...\n")
-    print(f"Top {top_k} arquiteturas mais semelhantes (label : similaridade):")
+# ===============================================================
+# 🔹 Impressão formatada
+# ===============================================================
+def pretty_print(result: Dict[str, Any], top_k: int = 6):
+    print("\nTexto analisado:\n", result["sequence"][:600], "...\n")
+    print(f"Top {top_k} arquiteturas mais prováveis (label : score):\n")
     for label, score in result["labels_scores"][:top_k]:
         print(f"  - {label:<30} : {score:.4f}")
 
@@ -136,5 +151,5 @@ if __name__ == "__main__":
       - Collector: coleta e processa documentos enviados.
     """
 
-    result = compute_semantic_similarity(description)
-    pretty_print(result, top_k=10)
+    result = classify_architecture(description, ARCHITECTURE_DESCRIPTIONS)
+    pretty_print(result, top_k=12)
