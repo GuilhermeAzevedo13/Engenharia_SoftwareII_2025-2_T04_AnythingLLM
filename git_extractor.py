@@ -36,8 +36,6 @@ class GitExtractor:
             'git log --all --name-status --pretty=format:"COMMIT:%H|%an|%ad|%s" --date=short'
         ))
         
-        #### Diffs (peguei os ultimos 10k  commits, mas talvez seja necessario mais -> ajustar 
-        self.save("diffs.txt", self.git('git log --all -p -n 10000'))
         
         # Estrutura de branches
         self.save("branches.txt", self.git('git log --all --graph --oneline --decorate'))
