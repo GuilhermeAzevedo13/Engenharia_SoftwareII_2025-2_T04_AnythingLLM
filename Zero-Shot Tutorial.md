@@ -1,21 +1,21 @@
-# **🧠 Arquitecture Recommender: Semantic Similarity Engine**
+#  **Arquitetura Recomendada: Similaridade Semântica**
 
-Este projeto implementa um motor de recomendação de **arquiteturas de software** baseado em **similaridade semântica**. Utilizando o *Sentence Transformers* e a similaridade de cosseno, ele compara uma descrição de sistema fornecida pelo usuário com as descrições de arquiteturas de software predefinidas para sugerir as opções mais adequadas.
+Este projeto implementa um indicador de **arquiteturas de software** baseado em **similaridade semântica**. Utilizando o *Sentence Transformers* e a similaridade de cosseno, ele compara uma descrição de sistema fornecida pelo usuário com as descrições de arquiteturas de software predefinidas para sugerir as opções mais adequadas.
 
-## **🚀 Como Funciona**
+##   **Como Funciona**
 
 1. **Embeddings**: Um modelo pré-treinado (all-MiniLM-L6-v2) transforma a descrição do sistema (texto de entrada) e todas as descrições de arquitetura pré-definidas em vetores numéricos de alta dimensão (*embeddings*).  
 2. **Similaridade de Cosseno**: O código calcula a similaridade do cosseno entre o vetor da descrição de entrada e o vetor de cada arquitetura.  
 3. **Ranking**: As arquiteturas são ranqueadas com base na similaridade, sendo as mais altas as mais semanticamente próximas à descrição do sistema.
 
-## **⚙️ Pré-requisitos**
+##   **Pré-requisitos**
 
 Para executar este código, você precisa do Python instalado e das seguintes bibliotecas:
 
 Bash  
 pip install sentence-transformers torch
 
-## **📂 Estrutura do Código**
+##   **Estrutura do Código**
 
 O script é dividido em três seções principais:
 
@@ -29,7 +29,7 @@ Este é o **banco de conhecimento** do sistema. Contém pares de **Nome da Arqui
 | **Microservices** | Divide a aplicação em serviços pequenos, independentes e implantáveis separadamente. |
 | **Layered architecture** | Organiza o sistema em níveis de abstração distintos (apresentação, negócio, dados). |
 | **Event-driven architecture** | Baseada na emissão, detecção e reação a eventos de forma assíncrona. |
-| ... | E mais 8 arquiteturas clássicas (Serverless, Hexagonal, CQRS, etc.). |
+| ... | E mais 8 arquiteturas clássicas (Serverless, SOA, CQRS, etc.). |
 
 ---
 
@@ -54,7 +54,7 @@ Esta seção demonstra o uso do motor.
 2. A função compute\_semantic\_similarity é chamada para processar a descrição.  
 3. O resultado é impresso na tela usando pretty\_print.
 
-## **▶️ Exemplo de Uso**
+##   **Exemplo de Uso**
 
 Para executar a análise com a descrição de exemplo:
 
@@ -88,15 +88,22 @@ Texto analisado:
       \- Server: gerencia interações com DB.  
       \- Collector: coleta e processa documentos enviados. ...
 
-Top 10 arquiteturas mais semelhantes (label : similaridade):  
-  \- Microservices                 : 0.7012  \# Alta similaridade com 'serviços separados'  
-  \- Serverless                    : 0.6125  
-  \- Event-driven architecture     : 0.5987  
-  \- Service-oriented architecture : 0.5540  
-  \- Client-server                 : 0.5402  
-  \- ...
+Top 12 arquiteturas mais prováveis (label : score):
 
-## **✍️ Personalização**
+  \- Service-oriented architecture  : 0.9988  
+  \- Plugin/modular architecture    : 0.9404  
+  \- Microservices                  : 0.9211  
+  \- Layered architecture           : 0.3285  
+  \- Event-driven architecture      : 0.3255  
+  \- MVC                            : 0.2765  
+  \- Monolithic                     : 0.1920  
+  \- Client-server                  : 0.1308  
+  \- CQRS                           : 0.0040  
+  \- Hexagonal architecture         : 0.0030  
+  \- Serverless                     : 0.0022  
+  \- Onion architecture             : 0.0012
+
+##   **Personalização**
 
 Para usar com suas próprias descrições:
 
