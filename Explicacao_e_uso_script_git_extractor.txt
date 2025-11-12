@@ -1,5 +1,0 @@
-Em uma abordagem complementar, visando gerar um novo conjunto de dados (input) a ser processado pelos modelos adotados pelos demais integrantes da equipe, optei por analisar os logs disponíveis no repositório. Com o objetivo de conferir maior robustez e generalização ao processo, desenvolvi um script em Python (git_extractor.py) que, utilizando a biblioteca subprocess, automatiza a extração e exportação em formato .txt dos commits, branches e informações sobre autores a partir do repositório clonado localmente.
-
-
-
-A utilização do script requer dois passos: primeiro, clonar o repositório alvo localmente utilizando o comando git clone; segundo, editar a variável REPO no script, inserindo o caminho completo do repositório clonado. Ao executar o script, os arquivos de saída (.txt) serão gerados na pasta git_output, criada automaticamente no diretório de execução.
