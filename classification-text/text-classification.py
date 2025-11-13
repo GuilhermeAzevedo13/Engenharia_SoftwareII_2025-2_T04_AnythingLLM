@@ -4,7 +4,7 @@ import os
 reranker = FlagReranker('BAAI/bge-reranker-v2-m3', use_fp16=True)
 
 textos = []
-for nome_arquivo in ["branches.txt", "commits.txt", "contributors.txt", "diffs.txt", "files.txt", "summary.txt"]:
+for nome_arquivo in ["entrada-branches.txt", "entrada-commits.txt", "entrada-contributors.txt", "entrada-diffs.txt", "entrada-files.txt", "entrada-summary.txt"]:
     if os.path.exists(nome_arquivo):
         with open(nome_arquivo, "r", encoding="utf-8") as f:
             textos.append(f.read())

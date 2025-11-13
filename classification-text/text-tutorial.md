@@ -56,15 +56,15 @@ pip3 install FlagEmbedding torch
 ## 📂 5. Estrutura esperada de arquivos
 /meu_projeto/
 
-├── branches.txt
+├── entrada-branches.txt
 
-├── commits.txt
+├── entrada-commits.txt
 
-├── contributors.txt
+├── entrada-contributors.txt
 
-├── files.txt
+├── entrada-files.txt
 
-├── summary.txt
+├── entrada-summary.txt
 
 └── text-classification.py
 
