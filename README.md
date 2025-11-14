@@ -164,12 +164,12 @@ Vídeo de Apresentação (YouTube): https://youtu.be/FqMbKRy-whs
 
 👥 Equipe 3 e Contribuições
 
-Ana Vitória de Almeida Bizo: feature-extractor e text-classification
-Carlos Augusto Santos de Carvalho: classificação zero-shot
-Guilherme Lavrador Viana: text-classification, análise e organização do repo
-Guilherme Menezes de Azevedo: feature-extractor e edição de vídeo 
-João Guilherme Alves: geração de entrada do tipo artefatos
-Ravi Ribeiro Proença: geração de entrada do tipo sumário 
-Ricardo Nabuco Sampaio Santana do Couto: geração de entrada do tipo .txt
+Ana Vitória de Almeida Bizo: feature-extractor e text-classification\
+Carlos Augusto Santos de Carvalho: classificação zero-shot\
+Guilherme Lavrador Viana: text-classification, análise e organização do repo\
+Guilherme Menezes de Azevedo: feature-extractor e edição de vídeo\
+João Guilherme Alves: geração de entrada do tipo artefatos\
+Ravi Ribeiro Proença: geração de entrada do tipo sumário\
+Ricardo Nabuco Sampaio Santana do Couto: geração de entrada do tipo .txt\
 
 
