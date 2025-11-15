@@ -1,27 +1,29 @@
-#  **Arquitetura Recomendada: Similaridade Semântica**
+## **Tutorial – MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7** 
 
-Este projeto implementa um indicador de **arquiteturas de software** baseado em **similaridade semântica**. Utilizando o *Sentence Transformers* e a similaridade de cosseno, ele compara uma descrição de sistema fornecida pelo usuário com as descrições de arquiteturas de software predefinidas para sugerir as opções mais adequadas.
+Este projeto implementa um indicador de arquiteturas de software baseado em similaridade semântica. Utilizando o *Sentence Transformers* e a similaridade de cosseno, ele compara uma descrição de sistema fornecida pelo usuário com as descrições de arquiteturas de software predefinidas para sugerir as opções mais adequadas.
 
-##   **Como Funciona**
+**Como Funciona**
 
-1. **Embeddings**: Um modelo pré-treinado (all-MiniLM-L6-v2) transforma a descrição do sistema (texto de entrada) e todas as descrições de arquitetura pré-definidas em vetores numéricos de alta dimensão (*embeddings*).  
+1. **Embeddings**: Um modelo pré-treinado (MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7) transforma a descrição do sistema (texto de entrada) e todas as descrições de arquitetura pré-definidas em vetores numéricos de alta dimensão (*embeddings*).  
 2. **Similaridade de Cosseno**: O código calcula a similaridade do cosseno entre o vetor da descrição de entrada e o vetor de cada arquitetura.  
-3. **Ranking**: As arquiteturas são ranqueadas com base na similaridade, sendo as mais altas as mais semanticamente próximas à descrição do sistema.
+3. **Ranking**: As arquiteturas são ranqueadas com base na similaridade, sendo as mais altas as mais semanticamente próximas à descrição do sistema.  
+   
 
-##   **Pré-requisitos**
+**Pré-requisitos**
 
 Para executar este código, você precisa do Python instalado e das seguintes bibliotecas:
 
 Bash  
 pip install sentence-transformers torch
 
-##   **Estrutura do Código**
+**Estrutura do Código**
 
 O script é dividido em três seções principais:
 
-### **1\. Dicionário de Arquiteturas (ARCHITECTURE\_DESCRIPTIONS)**
+**1\. Dicionário de Arquiteturas (ARCHITECTURE\_DESCRIPTIONS)**
 
-Este é o **banco de conhecimento** do sistema. Contém pares de **Nome da Arquitetura**: **Descrição Detalhada**.
+Este é o banco de conhecimento do sistema. Contém pares de   
+**Nome da Arquitetura**: **Descrição Detalhada**.
 
 | Arquitetura | Descrição |
 | :---- | :---- |
@@ -33,10 +35,10 @@ Este é o **banco de conhecimento** do sistema. Contém pares de **Nome da Arqui
 
 ---
 
-### **2\. Funções Utilitárias**
+**2\. Funções Utilitárias**
 
-* load\_embedding\_model(model\_name): Carrega o modelo de *embedding* do SentenceTransformer. Por padrão, usa **all-MiniLM-L6-v2** por ser eficiente e performático.  
-* get\_embedding(text, model): Recebe um texto e retorna seu respectivo vetor (**torch.Tensor**) de *embedding*.  
+* load\_embedding\_model(model\_name): Carrega o modelo de *embedding* do SentenceTransformer. Por padrão, usa MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7 por ser eficiente e performático.  
+* get\_embedding(text, model): Recebe um texto e retorna seu respectivo vetor (torch.Tensor) de *embedding*.  
 * compute\_semantic\_similarity(...): A função central.  
   * Carrega o modelo.  
   * Calcula o *embedding* da descrição de entrada.  
@@ -44,66 +46,62 @@ Este é o **banco de conhecimento** do sistema. Contém pares de **Nome da Arqui
   * Retorna os resultados classificados da maior para a menor similaridade.  
 * pretty\_print(result, top\_k): Exibe o resultado de forma legível, mostrando as arquiteturas com as maiores pontuações.
 
----
-
-### **3\. Execução Principal (if \_\_name\_\_ \== "\_\_main\_\_":)**
-
+**3\. Execução Principal (if \_\_name\_\_ \== "\_\_main\_\_":)**  
 Esta seção demonstra o uso do motor.
 
 1. Uma variável description é definida com a descrição detalhada do sistema a ser analisado.  
 2. A função compute\_semantic\_similarity é chamada para processar a descrição.  
 3. O resultado é impresso na tela usando pretty\_print.
 
-##   **Exemplo de Uso**
+**Exemplo de Uso:**
 
 Para executar a análise com a descrição de exemplo:
 
 Python  
 if \_\_name\_\_ \== "\_\_main\_\_":  
-    description \= """  
-    Linguagem dominante é o JS.  
-    ...  
-    Backend dividido em dois serviços NodeJS/Express:  
-      \- Server: gerencia interações com DB.  
-      \- Collector: coleta e processa documentos enviados.  
-    """
+description \= """  
+Linguagem dominante é o JS.  
+...  
+Backend dividido em dois serviços NodeJS/Express:  
+\- Server: gerencia interações com DB.  
+\- Collector: coleta e processa documentos enviados.  
+"""
 
-    result \= compute\_semantic\_similarity(description)  
-    pretty\_print(result, top\_k=10)
+result \= compute\_semantic\_similarity(description)    
+pretty\_print(result, top\\\_k=10)
 
-### **Saída Esperada:**
-
+**Saída Esperada:**  
 A saída mostrará as arquiteturas mais recomendadas e suas pontuações de similaridade. Note que a descrição de exemplo (com "Backend dividido em **dois serviços**") provavelmente resultará em alta pontuação para arquiteturas distribuídas:
 
 Texto analisado:  
- Linguagem dominante é o JS.  
-    Frontend: ViteJs \+ React.  
-    Backend: NodeJs \+ Express (JS).  
-    Permite rodar localmente (Desktop) e em servidores (Docker).  
-    Funcionalidade principal: RAG (Geração Aumentada por Recuperação).  
-    Objetivo: construtor no-code de IAs.  
-    Suporta múltiplos modelos LLM (Gemini, OpenAI, Ollama, etc.).  
-    Permite escolher Vector DB (LanceDB, PGVector, Pinecone, etc.).  
-    Backend dividido em dois serviços NodeJS/Express:  
-      \- Server: gerencia interações com DB.  
-      \- Collector: coleta e processa documentos enviados. ...
+Linguagem dominante é o JS.  
+Frontend: ViteJs \+ React.  
+Backend: NodeJs \+ Express (JS).  
+Permite rodar localmente (Desktop) e em servidores (Docker).  
+Funcionalidade principal: RAG (Geração Aumentada por Recuperação).  
+Objetivo: construtor no-code de IAs.  
+Suporta múltiplos modelos LLM (Gemini, OpenAI, Ollama, etc.).  
+Permite escolher Vector DB (LanceDB, PGVector, Pinecone, etc.).  
+Backend dividido em dois serviços NodeJS/Express:  
+\- Server: gerencia interações com DB.  
+\- Collector: coleta e processa documentos enviados. ...
 
 Top 12 arquiteturas mais prováveis (label : score):
 
-  \- Service-oriented architecture  : 0.9988  
-  \- Plugin/modular architecture    : 0.9404  
-  \- Microservices                  : 0.9211  
-  \- Layered architecture           : 0.3285  
-  \- Event-driven architecture      : 0.3255  
-  \- MVC                            : 0.2765  
-  \- Monolithic                     : 0.1920  
-  \- Client-server                  : 0.1308  
-  \- CQRS                           : 0.0040  
-  \- Hexagonal architecture         : 0.0030  
-  \- Serverless                     : 0.0022  
-  \- Onion architecture             : 0.0012
+\- Service-oriented architecture : 0.9988  
+\- Plugin/modular architecture : 0.9404  
+\- Microservices : 0.9211  
+\- Layered architecture : 0.3285  
+\- Event-driven architecture : 0.3255  
+\- MVC : 0.2765  
+\- Monolithic : 0.1920  
+\- Client-server : 0.1308  
+\- CQRS : 0.0040  
+\- Hexagonal architecture : 0.0030  
+\- Serverless : 0.0022  
+\- Onion architecture : 0.0012
 
-##   **Personalização**
+**Personalização**
 
 Para usar com suas próprias descrições:
 
