@@ -81,7 +81,7 @@ O modelo será baixado automaticamente quando o script for executado pela primei
 Basta executar o arquivo principal:
 
 ```bash
-python nome_do_arquivo.py
+python extracao-embedding.py
 ```
 
 Ao rodar, o script irá:
