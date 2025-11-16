@@ -70,36 +70,53 @@ Cada pasta contém os comandos e orientações necessárias para reproduzir os r
 
   Modelo: Qwen/Qwen3-Embedding-0.6B 
     Por que esse modelo:
-      * É leve e roda bem em CPU.
-      * Tem boa performance semântica para comparação de textos.
-      * Funciona nativamente com `sentence-transformers`.
-      * Baixa latência e baixo custo computacional.
-      * Não exige GPU nem API externa — tudo roda localmente.
+  
+   * É leve e roda bem em CPU.
+     
+   * Tem boa performance semântica para comparação de textos.
+    
+   * Funciona nativamente com `sentence-transformers`.
+  
+   * Baixa latência e baixo custo computacional.
+
+   * Não exige GPU nem API externa — tudo roda localmente.
 
   Input: Artefatos técnicos como package.json, Dockerfile e outros arquivos de configuração.
+  
   Técnica: Geração de embeddings (vetores) para os artefatos técnicos e para as descrições de arquiteturas, seguida pelo cálculo de similaridade de cosseno.
+  
   Resultado Principal: Microlítico (Score: 0.6583), seguido por Microserviços e Monolítico.
 
 3. Abordagem 3: Embedding Textual Resumido (Zero-Shot)
 
    Modelo: all-MiniLM-L6-v2 
     Por que esse modelo:
-      * O all-MiniLM-L6-v2 é extremamente eficiente e rápido, ideal quando queremos gerar embeddings em tarefas zero-shot de forma leve.
-      * Produz vetores de alta qualidade para descrições curtas, como resumos de arquitetura — exatamente o formato usado na abordagem 3.
-      * Tem excelente desempenho em tarefas de similaridade semântica, mesmo com input pequeno, mantendo boa precisão.
-      * É amplamente utilizado como baseline por causa da combinação de qualidade + velocidade + baixo custo computacional.
-      * Funciona muito bem quando a entrada é apenas um resumo textual e não um conjunto de documentos longos.
-      * Input: Um resumo textual breve descrevendo as linguagens, frameworks e o funcionamento geral do projeto.
+   
+    * O all-MiniLM-L6-v2 é extremamente eficiente e rápido, ideal quando queremos gerar embeddings em tarefas zero-shot de forma leve.
+      
+    * Produz vetores de alta qualidade para descrições curtas, como resumos de arquitetura — exatamente o formato usado na abordagem 3.
+      
+    * Tem excelente desempenho em tarefas de similaridade semântica, mesmo com input pequeno, mantendo boa precisão.
+      
+    * É amplamente utilizado como baseline por causa da combinação de qualidade + velocidade + baixo custo computacional.
+      
+    * Funciona muito bem quando a entrada é apenas um resumo textual e não um conjunto de documentos longos.
+      
+    * Input: Um resumo textual breve descrevendo as linguagens, frameworks e o funcionamento geral do projeto.
 
 
   Técnica: Classificação Zero-Shot baseada em similaridade semântica (cosseno) entre o resumo do projeto e as descrições de arquitetura.
+  
   Resultado Principal: Orientada a Serviços (SOA) (Score: 0.9988), seguido por Plugin/Modular e Microserviços.
 
 📊 Análise e Conclusão Final
+
 A análise comparativa dos três resultados indica que nenhuma arquitetura única define o projeto. A conclusão é que a arquitetura mais condizente para o AnythingLLM é um monólito modular (microlítico).
 
 Esta arquitetura principal é complementada por:
+
   Um padrão Camadas (Layered) / MVC na aplicação web , que é composta por um frontend (React/Vite) e um server (Node/Express).
+  
   Um ecossistema de plugins , o que explica a alta pontuação de "SOA" e "Plugin/Modular" na Abordagem 3.
 
 
