@@ -39,7 +39,16 @@ O objetivo principal desta atividade foi identificar o padrão de arquitetura de
 
 
 🔬 Metodologia: As Três Abordagens
+
 Foram empregadas três técnicas de análise para triangular a arquitetura do projeto:
+
+### Para executar cada abordagem, é necessário entrar na pasta correspondente ao método utilizado. Cada diretório possui seu próprio README com instruções específicas de instalação, dependências e execução. Basta acessar a pasta desejada:
+
+- classification-text 
+- classification-zeroshot
+- feature-extraction 
+
+Cada pasta contém os comandos e orientações necessárias para reproduzir os resultados obtidos em sua respectiva técnica.
 
 1. Abordagem 1: Classificação por Texto
 
