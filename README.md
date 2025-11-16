@@ -63,7 +63,9 @@ Cada pasta contém os comandos e orientações necessárias para reproduzir os r
    * É adequado para situações em que a entrada não é um único documento bem estruturado, mas sim um conjunto de textos técnicos extraídos do repositório.
 
   Input: Arquivos textuais extraídos do repositório (ex: commits.txt, files.txt, summary.txt).
+  
   Técnica: O modelo (um reranker) comparou o conteúdo textual agregado do projeto com descrições de padrões arquiteturais.
+  
   Resultado Principal: MVC (Score: -5.5664), seguido por Camadas (Layered) e Monolítico.
 
 2. Abordagem 2: Embeddings Técnicos
@@ -123,7 +125,9 @@ Esta arquitetura principal é complementada por:
 
 Por que "Monólito Modular"?
  1- A Abordagem 2 (Embeddings Técnicos) foi a que melhor capturou a estrutura de implantação.
+ 
  2- O projeto se autodeclara um monorepo.
+ 
  3- Apesar de possuir dois processos principais (server e collector), eles residem no mesmo repositório e são comumente implantados juntos no mesmo artefato Docker. Isso difere de microserviços clássicos,       que teriam implantação e governança independentes.
 
 
