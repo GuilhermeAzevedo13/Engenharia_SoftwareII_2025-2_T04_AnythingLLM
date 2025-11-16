@@ -4,7 +4,7 @@
 
 \- \*\*Modelo utilizado:\*\* BAAI/bge-reranker-v2-m3  
 
-\- \*\*Ambiente:\*\* Local por inferência, biblioteca: Reranker
+\- \*\*Ambiente:\*\* Local por inferência, biblioteca: FlagEmbedding
 
 \- \*\*CPU:\*\* Apple M2 Pro  
 
