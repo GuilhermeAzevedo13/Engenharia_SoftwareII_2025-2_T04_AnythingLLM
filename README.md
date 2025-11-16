@@ -51,11 +51,15 @@ Cada pasta contém os comandos e orientações necessárias para reproduzir os r
 
   Modelo: BAAI/bge-reranker-v2-m3 
     Por que esse modelo:
-      * O bge-reranker-v2-m3 é um dos melhores modelos atuais para ranqueamento semântico, superando embeddings comuns quando a tarefa exige comparar pares de textos longos.
-      * Ele foi projetado para comparação texto-a-texto de alta precisão, ideal para descobrir qual descrição arquitetural é mais próxima do conteúdo do projeto.
-      * Ele usa cross-encoding, avaliando a similaridade considerando interações diretas entre tokens, o que aumenta muito a precisão em classificações deste tipo.
-      * É robusto para lidar com conteúdos textuais heterogêneos: commits, diffs, lista de arquivos e sumários — exatamente como no AnythingLLM.
-      * É adequado para situações em que a entrada não é um único documento bem estruturado, mas sim um conjunto de textos técnicos extraídos do repositório.
+  * O bge-reranker-v2-m3 é um dos melhores modelos atuais para ranqueamento semântico, superando embeddings comuns quando a tarefa exige comparar pares de textos longos.
+      
+  * Ele foi projetado para comparação texto-a-texto de alta precisão, ideal para descobrir qual descrição arquitetural é mais próxima do conteúdo do projeto.
+      
+  * Ele usa cross-encoding, avaliando a similaridade considerando interações diretas entre tokens, o que aumenta muito a precisão em classificações deste tipo.
+      
+  * É robusto para lidar com conteúdos textuais heterogêneos: commits, diffs, lista de arquivos e sumários — exatamente como no AnythingLLM.
+      
+   * É adequado para situações em que a entrada não é um único documento bem estruturado, mas sim um conjunto de textos técnicos extraídos do repositório.
 
   Input: Arquivos textuais extraídos do repositório (ex: commits.txt, files.txt, summary.txt).
   Técnica: O modelo (um reranker) comparou o conteúdo textual agregado do projeto com descrições de padrões arquiteturais.
