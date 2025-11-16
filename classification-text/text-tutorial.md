@@ -11,10 +11,11 @@ O método escolhido foi **text-classification** com um *reranker* (modelo `BAAI/
 
 1. Escolher a *task* **text-classification** no Hugging Face.  
 2. Usar o modelo **BAAI/bge-reranker-v2-m3** — um reranker de similaridade textual.  
-3. Escrever descrições resumidas de várias arquiteturas de software (monolítico, microserviços, camadas etc.).  
-4. Usar como entrada os arquivos `.txt` (commits, files, summary etc.).  
-5. O script analisa o conteúdo dos `.txt` e calcula a similaridade entre o texto do projeto e cada descrição de arquitetura.  
-6. O resultado indica qual arquitetura é mais compatível.
+3. Escrever descrições resumidas de várias arquiteturas de software (monolítico, microserviços, camadas etc.).
+4. Fazer o git clone do repositório alvo localmente e usar o caminho deste para alterar a variável em "entrada-extrator.py" para gerar os .txt's 
+5. Usar como entrada os arquivos `.txt` (commits, files, summary etc.).  
+6. O script analisa o conteúdo dos `.txt` e calcula a similaridade entre o texto do projeto e cada descrição de arquitetura.  
+7. O resultado indica qual arquitetura é mais compatível.
 
 ---
 
