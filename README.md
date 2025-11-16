@@ -50,7 +50,8 @@ Cada pasta contém os comandos e orientações necessárias para reproduzir os r
 1. Abordagem 1: Classificação por Texto
 
   Modelo: BAAI/bge-reranker-v2-m3 
-    Por que esse modelo:
+  
+   Por que esse modelo:
   * O bge-reranker-v2-m3 é um dos melhores modelos atuais para ranqueamento semântico, superando embeddings comuns quando a tarefa exige comparar pares de textos longos.
       
   * Ele foi projetado para comparação texto-a-texto de alta precisão, ideal para descobrir qual descrição arquitetural é mais próxima do conteúdo do projeto.
